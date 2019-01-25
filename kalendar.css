@@ -1,0 +1,91 @@
+﻿.kalendar {
+    margin: .5em;
+    box-shadow: 0 0 1em rgba(0, 0, 0, 0.2);
+}
+.kalendar table {
+    width: 100%;
+    height: 100%;
+    table-layout: fixed;
+}
+.kal-header {
+    background-color: #25A0DA;
+    border: solid 1px #e0e0e0;
+}
+
+/* header -========================*/
+.nextPrev:hover
+{
+	background-color:#5ab6e2;
+}
+.title
+{
+	color:White;
+	font-weight:bold;
+	white-space:nowrap;
+	padding: .2em;
+    text-align: center;
+}
+
+/* Body -========================*/
+.kal-dayWeek
+{
+	background-color:#e0e0e0;
+}
+.kal-dayWeek div
+{
+    vertical-align:middle;
+}
+
+/* Day -========================*/
+.ka-day {
+    background-color: AliceBlue;
+    border: solid 1px #E0f0f0;
+}
+.ka-day:hover {
+    background-color: lightskyblue;
+}
+.otherMonth
+{
+	opacity: 0.3;
+}
+.ka-today {
+    background-color: lightgreen;
+    color: White;
+}
+
+/* Inside day -========================*/
+.ka-row {
+    min-height: 5em;
+}
+.ka-back {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+}
+.ka-week {
+    pointer-events:none;
+}
+.ka-week td {
+  vertical-align: top;
+}
+.ka-event {
+    font-size: .7em;
+    color: white;
+    padding: 0.1em;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+.ka-week th {
+    text-align:initial;
+}
+.kal-day {
+}
+.dayNumber {
+  float: left;
+  font-size: 1.5em;
+  height: .7em;
+}
+.lunardayNumber {
+  float: right;
+  font-size: .76em;
+  color: darkgoldenrod;
+}

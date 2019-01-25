@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <title>Kevin's Task</title>
+  <link rel="icon" href="school-calendar.png">
+  <script src="jquery-3.2.1.min.js"></script>
+  <script src="script/date.js"></script>
+  <script src="script/bootstrap-datepicker.min.js"></script>
+
+  <script src="script.js"></script>
+  <script src="kpopup/kpopup.js"></script>
+  <script src="kpopup/popup-ajax.js"></script>
+  <script src="amlich-hnd.js"></script>
+
+  <link rel="stylesheet" type='text/css' href="style.css">
+  <link rel="stylesheet" type='text/css' href="kpopup/kpopup.css">
+  <link rel="stylesheet" type='text/css' href="kalendar.css">
+  <link rel="stylesheet" type='text/css' href="css/bootstrap-datepicker.css" />
+
+</head>
+<body>
+
+  <div class="kalendar">
+    <table>
+      <thead class="kal-header">
+        <tr class="header">
+          <th colspan="3" class="nextPrev" onclick="load_prev_month();"></th>
+          <th class="title" id="titleCal">07/2017</th>
+          <th colspan="3" class="nextPrev" onclick="load_next_month();"></th>
+        </tr>
+        <tr class="kal-dayWeek">
+          <th>Mon</th>
+          <th>Tue</th>
+          <th>Wed</th>
+          <th>Thu</th>
+          <th>Fri</th>
+          <th>Sat</th>
+          <th>Sun</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+
+  <div id="dv_task">
+    <table class="tb-task">
+      <thead>
+        <tr class="ta-title">
+          <th>ID</th>
+          <th>Task</th>
+          <th class="right date">Start date</th>
+          <th class="right date">Due date</th>
+          <th></th>
+        </tr>
+        <tr class="ta-row">
+          <th></th>
+          <th><input type="text" id="in-task-name" placeholder="enter task name here..." /></th>
+          <th><input type="text" id="in-start-date" class="input-date right" placeholder="enter start date..." pattern="\d\d/\d\d/\d\d\d\d"></th>
+          <th><input type="text" id="in-due-date" class="input-date right" placeholder="enter due date..." pattern="\d\d/\d\d/\d\d\d\d"></th>
+          <th>
+            <input type="button" value="+" onclick="add_task();" />
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <!--<tr class="ta-row">
+          <td>1</td>
+          <td>Change request 1244</td>
+          <td class="right">17-07-2017</td>
+          <td class="right">20-07-2017</td>
+          <td>
+            <input type="button" value="#" onclick="edit_tasK();" />
+            <input type="button" value="-" onclick="remove_tasK();" />
+          </td>
+        </tr>-->
+      </tbody>
+    </table>
+  </div>
+  <div class="config">
+    <input type="checkbox" id="chk-show-lunar-day" onchange="toggle_show_lunar_day(this);" /><label for="chk-show-lunar-day">Show lunar day</label>
+  </div>
+
+  <div>Created date: 2017-07-18 15:09</div>
+
+  <div class="hidden">
+    <div id="day_temp">
+      <div class="ka-row">
+        <div class="ka-back">
+          <table>
+            <tbody>
+              <tr>
+                <td class="ka-day" data-date="1499999900000"></td>
+                <td class="ka-day" data-date="1499999900000"></td>
+                <td class="ka-day" data-date="1499999900000"></td>
+                <td class="ka-day" data-date="1499999900000"></td>
+                <td class="ka-day" data-date="1499999900000"></td>
+                <td class="ka-day" data-date="1499999900000"></td>
+                <td class="ka-day" data-date="1499999900000"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="ka-week">
+          <table>
+            <thead>
+              <tr>
+                <th class="kal-day" data-date="1499999900000" onclick="select_date(this);">
+                  <div class="dayNumber">26</div>
+                  <div class="lunardayNumber hidden">26</div>
+                </th>
+                <th class="kal-day" data-date="1499999900000" onclick="select_date(this);">
+                  <div class="dayNumber">27</div>
+                  <div class="lunardayNumber hidden">26</div>
+                </th>
+                <th class="kal-day" data-date="1499999900000" onclick="select_date(this);">
+                  <div class="dayNumber">28</div>
+                  <div class="lunardayNumber hidden">26</div>
+                </th>
+                <th class="kal-day" data-date="1499999900000" onclick="select_date(this);">
+                  <div class="dayNumber">29</div>
+                  <div class="lunardayNumber hidden">26</div>
+                </th>
+                <th class="kal-day" data-date="1499999900000" onclick="select_date(this);">
+                  <div class="dayNumber">30</div>
+                  <div class="lunardayNumber hidden">26</div>
+                </th>
+                <th class="kal-day" data-date="1499999900000" onclick="select_date(this);">
+                  <div class="dayNumber">1</div>
+                  <div class="lunardayNumber hidden">26</div>
+                </th>
+                <th class="kal-day" data-date="1499999900000" onclick="select_date(this);">
+                  <div class="dayNumber">2</div>
+                  <div class="lunardayNumber hidden">26</div>
+                </th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <table id="table_temp">
+      <tr class="ta-row" data-task-id="(p0)">
+        <td>(p0)</td>
+        <td>(p1)</td>
+        <td class="right">(p2)</td>
+        <td class="right">(p3)</td>
+        <td class="min-no-wrap">
+          <input type="button" value="#" onclick="show_edit_task((p0));" />
+          <input type="button" value="-" onclick="remove_task((p0));" />
+        </td>
+      </tr>
+    </table>
+    <div id="edit_task_temp">
+      <input type="hidden" id="event-id" />
+      <table>
+        <tr>
+          <td>Time line</td>
+          <td>
+            <input type="text" id="in-start-date" class="input-date right date" placeholder="enter start date..." pattern="\d\d/\d\d/\d\d\d\d">
+          </td>
+          <td>
+            <input type="text" id="in-due-date" class="input-date right date" placeholder="enter due date..." pattern="\d\d/\d\d/\d\d\d\d">
+          </td>
+        </tr>
+        <tr>
+          <td>Task name</td>
+          <td colspan="2">
+            <input type="text" id="in-task-name" placeholder="enter task name here..." class="width100" />
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td colspan="2">
+            <input type="button" value="OK" onclick="edit_task()" />
+            <input type="button" value="CANCEL" onclick="close_dialog();" />
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

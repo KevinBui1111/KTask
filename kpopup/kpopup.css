@@ -1,0 +1,70 @@
+.kpopup {
+  box-shadow: 0 .2em 15px grey;
+  z-index: 9;
+  position: absolute;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+.kpop-header {
+  background-color: crimson;
+  color: white;
+  padding: .2em .5em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: bold;
+  cursor: move;
+}
+
+.kpop-title {
+}
+
+.kpop-close {
+  font-size: 1.5em;
+  font-family: sans-serif;
+}
+
+  .kpop-close:hover {
+    color: black;
+    cursor: pointer;
+  }
+
+.kpop-content {
+  padding: .5em;
+  background-color: white;
+}
+
+@keyframes animatetop {
+  from {
+    transform: translate3d(0px, -100px, 0px);
+    opacity: 0
+  }
+
+  to {
+    transform: translate3d(0px, 0px, 0px);
+    opacity: 1
+  }
+}
+
+@keyframes animateup {
+  from {
+    transform: translate3d(0px, 0px, 0px);
+    opacity: 1
+  }
+
+  to {
+    transform: translate3d(0px, -100px, 0px);
+    opacity: 0
+  }
+}
+
+.wrap-modal {
+  background-color: rgba(0,0,0,0.1);
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  display: none;
+}

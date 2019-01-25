@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+
+    <script type="text/javascript" src="jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="http://www.javascripttoolbox.com/libsource.php/date/source/date.js"></script>
+
+    <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js'></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+
+    <script type="text/javascript" src="script.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.css">
+
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="kalendar.css">
+    <style type="text/css">
+        .table {
+            position: relative;
+            background-color: antiquewhite;
+        }
+
+        .cell {
+            position: absolute;
+            height: 1em;
+        }
+
+        .row {
+            /*display:table-row;*/
+            /*width:100%;*/
+        }
+    </style>
+</head>
+<body>
+    <div class="table">
+        <div class="cell">aaa</div>
+        
+    </div>
+
+    <div id="mykalendar"></div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var todayDate = moment().startOf('day');
+            var YM = todayDate.format('YYYY-MM');
+            var YESTERDAY = todayDate.clone().subtract(1, 'day').format('YYYY-MM-DD');
+            var TODAY = todayDate.format('YYYY-MM-DD');
+            var TOMORROW = todayDate.clone().add(1, 'day').format('YYYY-MM-DD');
+            // page is now ready, initialize the calendar...
+
+            $('#mykalendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay,listWeek'
+                }
+                //, eventLimit: true
+                , firstDay: 1
+                , editable: true
+                , events: [
+                  new FEvent('111', '2017-06-25', '2017-06-25')
+                  , new FEvent('222', '2017-07-02', '2017-07-17')
+                  , new FEvent('333', '2017-07-04', '2017-07-04')
+                  , new FEvent('444', '2017-07-10', '2017-07-10')
+                  , new FEvent('555', '2017-07-12', '2017-07-15')
+                  , new FEvent('666', '2017-07-13', '2017-07-15')
+                  , new FEvent('777', '2017-07-15', '2017-07-17')
+                  , new FEvent('888', '2017-07-17', '2017-07-18')
+                  , new FEvent('999', '2017-07-18', '2017-07-19')
+                  , new FEvent('100', '2017-07-18', '2017-07-18')
+                  , new FEvent('110', '2017-07-20', '2017-07-21')
+                  , new FEvent('120', '2017-07-19', '2017-07-21')
+                ]
+            })
+
+        });
+    </script>
+</body>
+</html>
