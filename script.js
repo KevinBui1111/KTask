@@ -47,8 +47,11 @@ var
   DAY_OFF = []
   ;
 
-const URL_GET = 'http://localhost:10101/Help/la_get'
-  ,URL_UPDATE = 'http://localhost:10101/Help/la_update'
+const URL_GET = 'http://cct-test.homecredit.vn/Help/la_get'
+  ,URL_UPDATE = 'http://cct-test.homecredit.vn/Help/la_update'
+  ,urlparam = new URLSearchParams(document.location.search)
+  ,USERNAME = urlparam.get('username') || 'kevinbui';
+
 ;
 $(document).ready(function () {
   cur_date = new Date;
@@ -56,8 +59,14 @@ $(document).ready(function () {
   today = new Date(cur_date)
   load_curr_month(cur_date);
 
-  la_get()
-  event_list = localStorage.events ? JSON.parse(localStorage.events) : [];
+  la_get();
+
+  apply_datepicker();
+
+});
+
+function on_receive_data(data, textStatus, jqXHR) {
+  event_list = data ? JSON.parse(data) : [];
   event_list.forEach(function (event, index) {
     this[index] = new Event(event);
     this[index].id = event.id;
@@ -65,13 +74,6 @@ $(document).ready(function () {
   }, event_list);
 
   show_all_task();
-
-  apply_datepicker();
-
-});
-
-function on_receive_data(data) {
-
 }
 
 String.prototype.format = function () {
@@ -384,7 +386,8 @@ function get_task(id) {
   return event_list.find(event => id == event.id);
 }
 function save_storage() {
-  localStorage.events = JSON.stringify(event_list);
+  // localStorage.events = JSON.stringify(event_list);
+  la_update()
 }
 
 function append_task_list(event) {
@@ -401,27 +404,27 @@ function toggle_show_lunar_day(e) {
     [...document.getElementsByClassName('lunardayNumber')].forEach(d => d.classList.add('hidden'));
 }
 
-function la_get(url) {
-  $.getJSON (
+function la_get() {
+  $.get (
     URL_GET,
     {
-      username: 'kevinbui',
+      username: USERNAME,
       web_app: 'knote',
     },
-    on_receive_data
+    on_receive_data,
   )
   .fail(function(jqxhr, textStatus, error)  {
     console.log( "error" );
   })
 }
 
-function la_update(url) {
+function la_update() {
   $.post (
     URL_UPDATE,
     {
-      username: 'kevinbui',
+      username: USERNAME,
       web_app: 'knote',
-      data_content: '2352 3523 523 5'
+      data_content: JSON.stringify(event_list)
     },
     function (data){
       //alert('Thanks! ' + JSON.stringify(data));
