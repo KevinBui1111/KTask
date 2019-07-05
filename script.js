@@ -47,12 +47,16 @@ var
   DAY_OFF = []
   ;
 
+const URL_GET = 'http://localhost:10101/Help/la_get'
+  ,URL_UPDATE = 'http://localhost:10101/Help/la_update'
+;
 $(document).ready(function () {
   cur_date = new Date;
   cur_date.setHours(0, 0, 0, 0);
   today = new Date(cur_date)
   load_curr_month(cur_date);
 
+  la_get()
   event_list = localStorage.events ? JSON.parse(localStorage.events) : [];
   event_list.forEach(function (event, index) {
     this[index] = new Event(event);
@@ -65,6 +69,10 @@ $(document).ready(function () {
   apply_datepicker();
 
 });
+
+function on_receive_data(data) {
+
+}
 
 String.prototype.format = function () {
   var s = this;
@@ -391,4 +399,35 @@ function toggle_show_lunar_day(e) {
     [...document.getElementsByClassName('lunardayNumber')].forEach(d => d.classList.remove('hidden'));
   else
     [...document.getElementsByClassName('lunardayNumber')].forEach(d => d.classList.add('hidden'));
+}
+
+function la_get(url) {
+  $.getJSON (
+    URL_GET,
+    {
+      username: 'kevinbui',
+      web_app: 'knote',
+    },
+    on_receive_data
+  )
+  .fail(function(jqxhr, textStatus, error)  {
+    console.log( "error" );
+  })
+}
+
+function la_update(url) {
+  $.post (
+    URL_UPDATE,
+    {
+      username: 'kevinbui',
+      web_app: 'knote',
+      data_content: '2352 3523 523 5'
+    },
+    function (data){
+      //alert('Thanks! ' + JSON.stringify(data));
+    }
+  )
+  .fail(function(jqxhr, textStatus, error)  {
+    console.log( "error la_update " + error );
+  })
 }
