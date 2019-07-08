@@ -48,13 +48,15 @@ var
   ;
 //cct-test.homecredit.vn
 //localhost:10101
-const URL_ROOT = 'http://cct-test.homecredit.vn'
+const URL_ROOT = 'http://localhost:10101'
   ,URL_GET =    URL_ROOT + '/LA/la_get'
   ,URL_UPDATE = URL_ROOT + '/LA/la_update'
   ,urlparam = new URLSearchParams(document.location.search)
-  ,USERNAME = urlparam.get('username') || 'kevinbui';
-
+  ,USERNAME = urlparam.get('username') || 'kevinbui'
+  ,WEB_APP = 'ktask'
+  ,STORAGE_NAME = WEB_APP + '_' + USERNAME
 ;
+
 $(document).ready(function () {
   cur_date = new Date;
   cur_date.setHours(0, 0, 0, 0);
@@ -70,7 +72,7 @@ $(document).ready(function () {
 function on_receive_data(data_server, textStatus, jqXHR) {
   if (data_server) data_server.DATA_CONTENT = JSON.parse(data_server.DATA_CONTENT);
   // check data from db is new or old
-  var data_local = JSON.parse(localStorage['events_' + USERNAME] || null);
+  var data_local = JSON.parse(localStorage[STORAGE_NAME] || null);
   
   var data_apply = null;
   if (data_local && data_server) {
@@ -398,7 +400,10 @@ function get_task(id) {
   return event_list.find(event => id == event.id);
 }
 function save_storage() {
-  // localStorage.events = JSON.stringify(event_list);
+  localStorage[STORAGE_NAME] = JSON.stringify({
+    DATE_UPDATED: new Date(),
+    DATA_CONTENT: event_list
+  });
   la_update()
 }
 
@@ -421,7 +426,7 @@ function la_get() {
     URL_GET,
     {
       username: USERNAME,
-      web_app: 'knote',
+      web_app: WEB_APP,
     },
     on_receive_data,
   )
@@ -435,7 +440,7 @@ function la_update() {
     URL_UPDATE,
     {
       username: USERNAME,
-      web_app: 'knote',
+      web_app: WEB_APP,
       data_content: JSON.stringify(event_list)
     },
     function (data){
@@ -444,9 +449,5 @@ function la_update() {
   )
   .fail(function(jqxhr, textStatus, error)  {
     alert( "error la_update " + error );
-    localStorage['events_' + USERNAME] = JSON.stringify({
-      DATE_UPDATED: new Date(),
-      DATA_CONTENT: event_list
-    });
   })
 }
