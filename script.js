@@ -46,9 +46,11 @@ var
   ],
   DAY_OFF = []
   ;
-
-const URL_GET = 'http://cct-test.homecredit.vn/Help/la_get'
-  ,URL_UPDATE = 'http://cct-test.homecredit.vn/Help/la_update'
+//cct-test.homecredit.vn
+//localhost:10101
+const URL_ROOT = 'http://cct-test.homecredit.vn'
+  ,URL_GET =    URL_ROOT + '/LA/la_get'
+  ,URL_UPDATE = URL_ROOT + '/LA/la_update'
   ,urlparam = new URLSearchParams(document.location.search)
   ,USERNAME = urlparam.get('username') || 'kevinbui';
 
@@ -65,8 +67,18 @@ $(document).ready(function () {
 
 });
 
-function on_receive_data(data, textStatus, jqXHR) {
-  event_list = data ? JSON.parse(data) : [];
+function on_receive_data(data_server, textStatus, jqXHR) {
+  if (data_server) data_server.DATA_CONTENT = JSON.parse(data_server.DATA_CONTENT);
+  // check data from db is new or old
+  var data_local = JSON.parse(localStorage['events_' + USERNAME] || null);
+  
+  var data_apply = null;
+  if (data_local && data_server) {
+    data_apply = data_local.DATE_UPDATED > data_server.DATE_UPDATED ? data_local : data_server;
+  }
+  else data_apply = data_local || data_server;
+
+  event_list = data_apply ? data_apply.DATA_CONTENT : [];
   event_list.forEach(function (event, index) {
     this[index] = new Event(event);
     this[index].id = event.id;
@@ -414,7 +426,7 @@ function la_get() {
     on_receive_data,
   )
   .fail(function(jqxhr, textStatus, error)  {
-    console.log( "error" );
+    console.log( "error la_get" );
   })
 }
 
@@ -431,6 +443,10 @@ function la_update() {
     }
   )
   .fail(function(jqxhr, textStatus, error)  {
-    console.log( "error la_update " + error );
+    alert( "error la_update " + error );
+    localStorage['events_' + USERNAME] = JSON.stringify({
+      DATE_UPDATED: new Date(),
+      DATA_CONTENT: event_list
+    });
   })
 }
