@@ -48,7 +48,7 @@ var
   ;
 //cct-test.homecredit.vn
 //localhost:10101
-const URL_ROOT = 'http://localhost:10101'
+const URL_ROOT = 'http://cct-test.homecredit.vn'
   ,URL_GET =    URL_ROOT + '/LA/la_get'
   ,URL_UPDATE = URL_ROOT + '/LA/la_update'
   ,urlparam = new URLSearchParams(document.location.search)
@@ -431,7 +431,8 @@ function la_get() {
     on_receive_data,
   )
   .fail(function(jqxhr, textStatus, error)  {
-    console.log( "error la_get" );
+    console.log( "error la_get" + error);
+    on_receive_data();
   })
 }
 
